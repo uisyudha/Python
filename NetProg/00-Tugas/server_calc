@@ -1,0 +1,58 @@
+import socket
+import struct
+from thread import start_new_thread
+
+# Inisiasi socket tcp
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+# Binding ke ip port
+sock.bind(('', 4444))
+
+# Listen 10 3 way handshake
+sock.listen(10)
+
+# Mengatasi masalah port already in use
+sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+
+
+def handle_connection(conn):
+    try:
+        while True:
+            # Receive 4 byte (angka1)
+            angka1 = conn.recv(4)
+            # Receive 4 byte (angka2)
+            angka2 = conn.recv(4)
+            # Receive 1 byte (operator)
+            operator = conn.recv(1)
+
+            if angka1 != "" and angka2 != "" and operator != "":
+                data1 = struct.unpack(">I", angka1)[0]
+                data2 = struct.unpack(">I", angka2)[0]
+
+                if operator == "+" :
+                    hasil = data1 + data2;
+                    conn.send(str(hasil))
+                elif operator == "-" :
+                    hasil = data1 - data2;
+                    conn.send(str(hasil))
+                elif operator == "/" :
+                    hasil = data1 / data2;
+                    conn.send(str(hasil))
+                elif operator == "*" :
+                    hasil = data1 * data2;
+                    conn.send(str(hasil))
+
+    except socket.error:
+        print "Koneksi ke client" + str(conn) + "mati";
+        conn.close()
+
+
+try:
+    while True:
+        # Accept permintaan 3 way handshake
+        conn, addr = sock.accept()
+
+        start_new_thread(handle_connection, (conn,))
+    # Receive data dari client
+except KeyboardInterrupt:
+    print "Server Mati"

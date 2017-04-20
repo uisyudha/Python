@@ -1,0 +1,31 @@
+# Import statement
+import socket
+import struct
+
+# Inisiasi socket
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+# Koneksi ke ip dan port server
+sock.connect(('127.0.0.1', 4444))
+
+# Meminta input angka1
+angka1 = input("Masukkan angka1 : ")
+# Meminta input angka2
+angka2 = input("Masukkan angka2 : ")
+# Meminta input operator
+operator = raw_input("Masukkan operator : ")
+
+# Pack angka1 dan angka2 dalam representasi integer
+data1 = struct.pack(">I", angka1)
+data2 = struct.pack(">I", angka2)
+
+# Combine data1 dan data2 dan operator
+data = data1 + data2 + operator
+# Send data
+sock.send(data)
+# Receive data
+data = sock.recv(100)
+# Cetak data
+print data
+# Close koneksi
+sock.close()
