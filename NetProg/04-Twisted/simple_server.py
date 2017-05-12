@@ -18,6 +18,7 @@ class EchoServer(Protocol):
 # Definisi class factory
 class EchoFactory(Factory):
     # Callback func ketika client baru terhubung
+
     def buildProtocol(self, address):
         return EchoServer()
 
