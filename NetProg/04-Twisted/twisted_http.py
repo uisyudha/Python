@@ -10,6 +10,8 @@ class Home(resource.Resource):
 
     def render_POST(self, request):
         return "Anda mengirimkan : " + str(request.args)
+
+
 # Factory
 site = server.Site(Home())
 

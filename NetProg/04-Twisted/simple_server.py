@@ -1,7 +1,6 @@
 from twisted.internet.protocol import Protocol, Factory
 from twisted.internet import reactor
 
-
 # Definisi class protocol
 class EchoServer(Protocol):
     # Dipanggil ketika koneksi berhasil dibuat

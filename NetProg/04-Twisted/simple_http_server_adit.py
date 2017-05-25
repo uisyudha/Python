@@ -3,6 +3,7 @@ from twisted.internet.protocol import Protocol, Factory
 from twisted.internet import reactor
 from twisted.protocols.basic import LineReceiver
 
+
 # Mode line callback function dataReceived tidak bisa digunakan
 class EchoServer(LineReceiver):
     first_line = True
@@ -50,6 +51,7 @@ class EchoServer(LineReceiver):
         self.transport.write("Content-Length: " + str(c_length) + "\r\n")
         self.transport.write("\r\n")
         self.transport.write(body)
+
 
 # Definisi class factory
 class EchoFactory(Factory):
