@@ -25,12 +25,15 @@ class Pegawai(Resource):
 
     # Fungsi yang menghandle GET method READ Pegawai
     def render_GET(self, request):
-        # Split request path
+        # Split request path berdasarkan tanda /
+        # Jika user request resource /pegawai/1 maka hasil split ['', 'pegawai'. '1']
         resource = request.path.split("/")
         resource_len = len(resource)
+        # Print request
         print request.method, request.path
 
         # Callback function setelah query dijalankan
+        # Fungsi ini dijankan setelah query di eksekusi
         def onResult(data):
             # Konversi ke json
             str_data = json.dumps(data)
@@ -48,8 +51,10 @@ class Pegawai(Resource):
                 def getPegawai():
                     return dbpool.runQuery("SELECT * FROM PEGAWAI")
 
+                # Panggil fungsi query, dan set callback functionnya
                 getPegawai().addCallback(onResult)
 
+            # Resource yang diminta tidak ada
             else:
                 status = "Request path or parameter error"
                 self.requestError(request, status)
@@ -85,8 +90,11 @@ class Pegawai(Resource):
         # Split request path
         resource = request.path.split("/")
         resource_len = len(resource)
+        # Print request
         print request.method, request.path
 
+        # Callback function setelah query dijalankan
+        # Fungsi ini dijankan setelah query di eksekusi
         def onResult(data):
             self.requestSuccecs(request)
 
@@ -113,13 +121,10 @@ class Pegawai(Resource):
         # Split request path
         resource = request.path.split("/")
         resource_len = len(resource)
-        print resource
+        print request.method, request.path
 
-        def onResult():
-            request.setResponseCode(200)
-            status = {"status" : "success"}
-            request.write(json.dumps(status))
-            request.finish()
+        def onResult(data):
+            self.requestSuccecs(request)
 
         if resource_len == 3:
             if resource[1] == "pegawai":

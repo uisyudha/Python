@@ -72,7 +72,7 @@ class EchoServer(LineReceiver):
                         body = ""
                         for i in params:
                             body = body + i + "\n"
-                        self.send_response(status,body)
+                        self.send_response(status, body)
                     # Redirect ke /
                     else:
                         status = "HTTP/1.0 200 OK\r\n"

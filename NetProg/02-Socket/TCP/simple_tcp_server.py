@@ -12,6 +12,7 @@ sock.listen(10)
 while True:
     # Accept permintaan 3 way handshake
     conn, addr = sock.accept()
+    print addr
     # Receive data dari client
 
     data = conn.recv(10)
