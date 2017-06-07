@@ -21,8 +21,10 @@ class WebService(Resource):
             pesan = request.args['pesan'][0]
             print topik, pesan
             
+            #Buat data yang akan dikirim ke websocket server
             data = {'id': 'pub', 'topik': topik, 'pesan': pesan}
-
+            
+            #Encode json
             str_data = json.dumps(data)
             
             # Buat object websocket
